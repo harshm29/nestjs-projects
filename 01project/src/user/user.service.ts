@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { User } from '../schemas/Uses.schema'; // Correct the import path
 import { CreateUserDto } from './dto/CreateUser.dto';
 import * as bcrypt from 'bcrypt';
+import { UpdateUserDto } from './dto/UpdateUser.dto';
 
 @Injectable()
 export class UserService {
@@ -27,5 +28,17 @@ export class UserService {
     plainTextPassword: string,
   ): Promise<boolean> {
     return bcrypt.compare(plainTextPassword, user.password);
+  }
+
+  async getUsers() {
+    return this.userModel.find();
+  }
+
+  async getUserById(ID: string) {
+    return await this.userModel.findById(ID);
+  }
+
+  async updateUser(id: string, updateUserDto: UpdateUserDto) {
+    return this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 }
