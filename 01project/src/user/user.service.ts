@@ -20,7 +20,7 @@ export class UserService {
       password: hashedPassword, // Set the hashed password
     });
 
-    return newUser.save();
+    return await newUser.save();
   }
 
   async verifyPassword(
@@ -31,7 +31,7 @@ export class UserService {
   }
 
   async getUsers() {
-    return this.userModel.find();
+    return await this.userModel.find();
   }
 
   async getUserById(ID: string) {
@@ -39,6 +39,12 @@ export class UserService {
   }
 
   async updateUser(id: string, updateUserDto: UpdateUserDto) {
-    return this.userModel.findByIdAndUpdate(id, updateUserDto);
+    return await this.userModel.findByIdAndUpdate(id, updateUserDto, {
+      new: true,
+    });
+  }
+
+  async deleteUserById(ID: string) {
+    return await this.userModel.findByIdAndDelete(ID);
   }
 }
