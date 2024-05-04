@@ -1,5 +1,6 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+import { UserSettings } from './UserSettings.schema';
 
 export type UserDocument = Document & User;
 
@@ -25,6 +26,8 @@ export class User {
 
   @Prop({ required: true, enum: Gender, default: Gender.Male })
   gender: Gender;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'UserSettings' })
+  setting?: UserSettings;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
